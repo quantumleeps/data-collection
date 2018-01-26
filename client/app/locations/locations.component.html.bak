@@ -1,0 +1,380 @@
+<app-loading [condition]="isLoading">
+
+</app-loading>
+
+
+<app-toast [message]="toast.message"></app-toast>
+<div class="container" style="margin-top: 20px;">
+  <span *ngIf="!isEditing">
+    <span *ngFor="let location of locations">
+      <div class="row boxybox" style="font-size: 180%">
+        <i class="fa fa-map-marker" aria-hidden="true" style="margin-right: 3px;"></i>{{location.name}} - {{location.country}}
+        <button class="btn btn-sm btn-warning" (click)="enableEditing(location)">
+          <i class="fa fa-pencil"></i>
+        </button>
+        <button class="btn btn-sm btn-danger" (click)="deleteLocation(location)">
+          <i class="fa fa-trash"></i>
+        </button>
+      </div>
+
+
+      <br>
+      <div *ngFor="let group of location.groups">
+        <div class="row boxybox" style="font-size: 128%">
+          <i class="fa fa-sitemap" aria-hidden="true" style="margin-left: 5px; margin-right: 3px;"></i>{{group.name}}
+          <button class="btn btn-sm btn-warning" (click)="enableEditing(location,group)">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <!-- <button class="btn btn-sm btn-danger" (click)="deleteLocation(location,group)">
+                    <i class="fa fa-trash"></i>
+                  </button> -->
+        </div>
+
+        <br>
+
+        <span *ngFor="let point of group.points">
+          <div class="row boxybox">
+            <i class="fa fa-tachometer" aria-hidden="true" style="margin-left: 10px; margin-right: 3px;"></i>{{point.name}}
+            <button class="btn btn-sm btn-warning" (click)="enableEditing(location,group,point)">
+              <i class="fa fa-pencil"></i>
+            </button>
+            <!-- <button class="btn btn-sm btn-danger" (click)="deleteLocation(location,group,point)">
+                      <i class="fa fa-trash"></i>
+                    </button> -->
+          </div>
+
+          <br>
+
+        </span>
+        {{group.name}} Add new point:
+        <br> field
+        <button>Add</button>
+      </div>
+      <br> {{location.name}} Add new group:
+      <br> field
+      <button>Add</button>
+    </span>
+
+  </span>
+
+
+  <span *ngIf="isEditing && (!group || !point)">
+    It is editing location {{location.name}}
+    <button (click)="cancelEditing()">Stop editing</button>
+  </span>
+  <span *ngIf="isEditing && group && !point">
+    It is editing group {{group.name}}
+    <button (click)="cancelEditing()">Stop editing</button>
+  </span>
+  <span *ngIf="isEditing && point">
+    It is editing point {{point.name}}
+    <button (click)="cancelEditing()">Stop editing</button>
+  </span>
+
+  <!-- <div class="card" *ngIf="!isLoading">
+        <h4 class="card-header">Current cats ({{cats.length}})</h4>
+        <div class="card-block">
+          <table class="table table-bordered table-striped">
+            <thead class="thead-default">
+              <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Weight</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="cats.length === 0">
+              <tr>
+                <td colspan="4">There are no cats in the DB. Add a new cat below.</td>
+              </tr>  
+            </tbody>
+            <tbody *ngIf="!isEditing">
+              <tr *ngFor="let cat of cats">
+                <td>{{cat.name}}</td>
+                <td>{{cat.age}}</td>
+                <td>{{cat.weight}}</td>
+                <td>
+                  <button class="btn btn-sm btn-warning" (click)="enableEditing(cat)"><i class="fa fa-pencil"></i> Edit</button> 
+                  <button class="btn btn-sm btn-danger" (click)="deleteCat(cat)"><i class="fa fa-trash"></i> Delete</button>
+                </td>
+              </tr>  
+            </tbody>
+            <tbody *ngIf="isEditing">
+              <tr>
+                <td colspan="4">
+                  <form class="form-inline" #form="ngForm" (ngSubmit)="editCat(cat)" style="display:inline">
+                    <div class="form-group">
+                      <input class="form-control" type="text" name="name" [(ngModel)]="cat.name" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                      <input class="form-control" type="number" name="age" [(ngModel)]="cat.age" placeholder="Age" min="0" required>
+                    </div>
+                    <div class="form-group">
+                      <input class="form-control" type="number" name="weight" [(ngModel)]="cat.weight" placeholder="Weight" step="any" min="0" required>
+                    </div>
+                    <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
+                  </form>
+                  <button class="btn btn-sm btn-warning" (click)="cancelEditing()"><i class="fa fa-times"></i> Cancel</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+       -->
+
+  <span *ngIf="!isEditing">
+    <h4 class="card-header">Add new loc</h4>
+    <div class="card-block">
+      <form class="form-inline" [formGroup]="addLocationForm" (ngSubmit)="addLocation()" style="text-align:center">
+        <div class="form-group">
+          <input class="form-control" type="text" name="name" formControlName="name" placeholder="Name">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="age" formControlName="country" placeholder="Country">
+        </div>
+        <button class="btn btn-primary" type="submit" [disabled]="!addLocationForm.valid">
+          <i class="fa fa-floppy-o"></i> Add</button>
+      </form>
+    </div>
+  </span>
+</div>
+
+<div id="listing" class="container">
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Blue Hills 2 - Bahamas</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Blue Hills 1 - Bahamas</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Windsor - Bahamas</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Governors Harbor3 - Grand Cayman</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">
+        <i style="margin-right: 5px;" class="fa fa-plus-square"></i>Add a location</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+
+    </div>
+  </div>
+
+
+<br>
+<br>
+<br>
+
+<div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Blue Hills 2 - Bahamas</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 12px; font-size: 125%;">Prefilter</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8">
+          <span style="padding-left: 12px; font-size: 125%;">1st Pass RO</span>
+        </div>
+        <div class="col-sm-4" style="text-align: right;">
+          <i style="margin: 6px;" class="fa fa-pencil"></i>
+          <i style="margin: 6px;" class="fa fa-trash"></i>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-sm-8">
+            <span style="padding-left: 12px; font-size: 125%;">2nd Pass RO</span>
+          </div>
+          <div class="col-sm-4" style="text-align: right;">
+            <i style="margin: 6px;" class="fa fa-pencil"></i>
+            <i style="margin: 6px;" class="fa fa-trash"></i>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+              <span style="font-size: 125%;">
+                <i style="padding-left: 12px; margin-right: 5px;" class="fa fa-plus-square"></i>Add a group</span>
+            </div>
+            <div class="col-sm-4" style="text-align: right;">
+        
+            </div>
+          </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Blue Hills 1 - Bahamas</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Windsor - Bahamas</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">Governors Harbor3 - Grand Cayman</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 12px; font-size: 125%;">Prefilter</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Inlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Outlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Differential Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 12px; font-size: 125%;">1st Pass RO</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Inlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Outlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Differential Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+    <div class="col-sm-8">
+        <span style="padding-left: 12px; font-size: 125%;">2nd Pass RO</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 24px;">Inlet Pressure (psig)</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 24px;">Outlet Pressure (psig)</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 24px;">Differential Pressure (psig)</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+  </div> -->
+</div>

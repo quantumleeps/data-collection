@@ -1,0 +1,20 @@
+.table td,
+.table th {
+  text-align: center;
+  width: 25%;
+}
+.boxybox {
+  /* background-color: red; */
+  /* height: 30px; */
+}
+
+#listing {
+  margin-top: 20px;
+}
+
+#listing .row {
+  /* border: 1px solid black;
+  margin: 5px;
+  padding: 7px;
+  border-radius: 5px; */
+}

@@ -1,0 +1,275 @@
+<app-loading [condition]="isLoading">
+
+</app-loading>
+
+
+<app-toast [message]="toast.message"></app-toast>
+
+<div id="listing" class="container">
+  <br>
+  <h4>
+    Click on a Location to view, add or edit its Groups.
+  </h4>
+  <div style="margin-bottom: 3px;" *ngFor="let location of locations">
+    <div class="row">
+      <div class="col">
+        <button style="width: 100%; margin: 5px" type="button" class="btn btn-primary">
+          <span style="font-weight: bold; font-size: 125%;">{{location.name}} - {{location.country}}</span>
+        </button>
+      </div>
+      <div class="col">
+        <button style="margin: 5px" type="button" class="btn btn-primary">
+          <i style="margin: 6px;" class="fa fa-pencil"></i>Edit
+        </button>
+        <button style="margin: 5px" type="button" class="btn btn-primary">
+          <i style="margin: 6px;" class="fa fa-trash"></i>Delete
+        </button>
+      </div>
+    </div>
+    <!-- <div class="row">
+      <div class="col-sm">
+          <button  (click)="selectLocation(location)" type="button" class="btn btn-outline-primary">
+            <span style="font-weight: bold; font-size: 125%;">{{location.name}} - {{location.country}}</span>
+          </button>
+      </div>
+      <div class="col-sm" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div> -->
+    <!-- <div *ngIf="selectedLocation === location">
+      <div *ngFor="let group of location.groups">
+        <div class="row">
+          <div class="col-sm">
+            <span style="padding-left: 12px; font-size: 125%;">{{group.name}}</span>
+          </div>
+          <div class="col-sm" style="text-align: right;">
+            <i style="margin: 6px;" class="fa fa-pencil"></i>
+            <i style="margin: 6px;" class="fa fa-trash"></i>
+          </div>
+        </div>
+        <div *ngFor="let point of group.points">
+          <div class="row">
+            <div class="col-sm">
+              <span style="padding-left: 24px;">{{point.name}}</span>
+            </div>
+            <div class="col-sm" style="text-align: right;">
+              <i style="margin: 6px;" class="fa fa-pencil"></i>
+              <i style="margin: 6px;" class="fa fa-trash"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-sm-8">
+      <span style="font-size: 125%;">
+          <button style="width: 100%;" type="button" class="btn btn-outline-info">
+              <i style="margin-right: 5px;" class="fa fa-plus-square"></i>Add a location
+          </button>
+        </span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+
+    </div>
+  </div> -->
+
+
+
+
+
+
+  <!-- useless below -->
+
+
+  <!-- <div class="row">
+  <div class="col-sm-8">
+    <span style="font-size: 125%;">Blue Hills 2 - Bahamas</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <span style="padding-left: 12px; font-size: 125%;">Prefilter</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8">
+    <span style="padding-left: 12px; font-size: 125%;">1st Pass RO</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-8">
+    <span style="padding-left: 12px; font-size: 125%;">2nd Pass RO</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <span style="font-size: 125%;">
+      <i style="padding-left: 12px; margin-right: 5px;" class="fa fa-plus-square"></i>Add a group
+    </span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <span style="font-size: 125%;">Blue Hills 1 - Bahamas</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <span style="font-size: 125%;">Windsor - Bahamas</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-8">
+    <span style="font-size: 125%;">Governors Harbor3 - Grand Cayman</span>
+  </div>
+  <div class="col-sm-4" style="text-align: right;">
+    <i style="margin: 6px;" class="fa fa-pencil"></i>
+    <i style="margin: 6px;" class="fa fa-trash"></i>
+  </div>
+</div> -->
+
+
+
+
+
+  <!-- <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 12px; font-size: 125%;">Prefilter</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Inlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Outlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Differential Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 12px; font-size: 125%;">1st Pass RO</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Inlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Outlet Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-8">
+      <span style="padding-left: 24px;">Differential Pressure (psig)</span>
+    </div>
+    <div class="col-sm-4" style="text-align: right;">
+      <i style="margin: 6px;" class="fa fa-pencil"></i>
+      <i style="margin: 6px;" class="fa fa-trash"></i>
+    </div>
+    <div class="col-sm-8">
+        <span style="padding-left: 12px; font-size: 125%;">2nd Pass RO</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 24px;">Inlet Pressure (psig)</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 24px;">Outlet Pressure (psig)</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8">
+        <span style="padding-left: 24px;">Differential Pressure (psig)</span>
+      </div>
+      <div class="col-sm-4" style="text-align: right;">
+        <i style="margin: 6px;" class="fa fa-pencil"></i>
+        <i style="margin: 6px;" class="fa fa-trash"></i>
+      </div>
+  </div> -->
+</div>
