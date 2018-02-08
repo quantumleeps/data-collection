@@ -8,81 +8,150 @@
 <div id="listing" class="container">
   <div *ngIf="selectedPoint.name">
     <h3>
-        <a (click)="resetSelections()" href="javascript:void(0)">Home</a>
-        >
-        <a (click)="resetPointSelect(); resetGroupSelect()" href="javascript:void(0)">{{selectedLocation.name}}</a>
-        >
-        <a (click)="resetPointSelect();" href="javascript:void(0)">{{selectedGroup.name}}</a>
-        > {{selectedPoint.name}}
+      <a (click)="resetSelections()" href="javascript:void(0)">Home</a>
+      >
+      <a (click)="resetPointSelect(); resetGroupSelect()" href="javascript:void(0)">{{selectedLocation.name}}</a>
+      >
+      <a (click)="resetPointSelect();" href="javascript:void(0)">{{selectedGroup.name}}</a>
+      > {{selectedPoint.name}}
     </h3>
     <h1>{{selectedPoint.name}}</h1>
     This is where you'll be able to modify all of the parameters
   </div>
   <div *ngIf="!selectedPoint.name && selectedGroup.name">
-      <h3>
-          <a (click)="resetSelections()" href="javascript:void(0)">Home</a>
-          >
-          <a (click)="resetGroupSelect()" href="javascript:void(0)">{{selectedLocation.name}}</a>
-          >
-          {{selectedGroup.name}}
-      </h3>
+    <h3>
+      <a (click)="resetSelections()" href="javascript:void(0)">Home</a>
+      >
+      <a (click)="resetGroupSelect()" href="javascript:void(0)">{{selectedLocation.name}}</a>
+      > {{selectedGroup.name}}
+    </h3>
     <h1>{{selectedGroup.name}}</h1>
     <h4>
-        Click on a Point to edit its parameters or create a new Point.
+      Click on a Point to edit its parameters or create a new Point.
     </h4>
     <div style="margin-bottom: 3px;" *ngFor="let point of selectedGroup.points">
+      <div class="row">
+        <div class="col-10" style="padding-right: 0px; !important">
+          <button (click)="selectPoint(point)" style="width: 100%; height: 50px;" type="button" class="btn btn-primary text-left">
+            <span style="font-weight: bold; font-size: 125%;">{{point.name}}</span>
+          </button>
+        </div>
+        <div class="col-1" style="margin: 0px; padding: 0px; !important">
+          <button (click)="selectPoint(point)" style="width: 100%; height: 50px;" type="button" class="btn btn-info">
+            <span style="font-weight: bold; font-size: 80%;">
+              <i style="margin: 4px;" class="fa fa-pencil"></i>
+            </span>
+          </button>
+        </div>
+        <div class="col-1" style="margin-right: 0px; padding-left: 0px; !important">
+          <button (click)="selectPoint(point)" style="width: 100%; height: 50px;" type="button" class="btn btn-danger">
+            <span style="font-weight: bold; font-size: 80%;">
+              <i style="margin: 4px;" class="fa fa-trash"></i>
+            </span>
+          </button>
+        </div>
+        <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!selectedPoint.name && !selectedGroup.name && selectedLocation.name">
+    <h3>
+      <a (click)="resetSelections()" href="javascript:void(0)">Home</a>
+      > {{selectedLocation.name}}
+    </h3>
+    <br>
+    <h1>{{selectedLocation.name}} - {{selectedLocation.country}}</h1>
+    <div *ngIf="selectedLocation.groups">
+      <br>
+      <h4>
+        Click on a "Group" to modify its "Data Points." Groups typically represent systems such as "Prefiltration" or "Wellfield."
+        Data points are the parameters that are measured by an operator.
+        <br>
+      </h4>
+      <div style="margin-bottom: 3px;" *ngFor="let group of selectedLocation.groups">
         <div class="row">
-          <div class="col">
-            <button (click)="selectPoint(point)" style="width: 100%; margin: 5px" type="button" class="btn btn-primary">
-              <span style="font-weight: bold; font-size: 125%;">{{point.name}}</span>
+          <div class="col-10" style="padding-right: 0px; !important">
+            <button (click)="selectGroup(group)" style="width: 100%; height: 50px;" type="button" class="btn btn-primary text-left">
+              <span style="font-weight: bold; font-size: 125%;">{{group.name}}</span>
+            </button>
+          </div>
+          <div class="col-1" style="margin: 0px; padding: 0px; !important">
+            <button (click)="selectGroup(group)" style="width: 100%; height: 50px;" type="button" class="btn btn-info">
+              <span style="font-weight: bold; font-size: 80%;">
+                <i style="margin: 4px;" class="fa fa-pencil"></i>
+              </span>
+            </button>
+          </div>
+          <div class="col-1" style="margin-right: 0px; padding-left: 0px; !important">
+            <button (click)="selectGroup(group)" style="width: 100%; height: 50px;" type="button" class="btn btn-danger">
+              <span style="font-weight: bold; font-size: 80%;">
+                <i style="margin: 4px;" class="fa fa-trash"></i>
+              </span>
             </button>
           </div>
         </div>
+        <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
       </div>
-  </div>
-  <div *ngIf="!selectedPoint.name && !selectedGroup.name && selectedLocation.name">
-      <h3>
-          <a (click)="resetSelections()" href="javascript:void(0)">Home</a>
-          >
-          {{selectedLocation.name}}
-      </h3>
-    <br> <h1>{{selectedLocation.name}}</h1>
-    <h4>
-      Click on a Group to modify its Data Points or create a new Group.
-    </h4>
-    <div style="margin-bottom: 3px;" *ngFor="let group of selectedLocation.groups">
+    </div>
+    <div *ngIf="!selectedLocation.groups">
+      <h4>
+          No "Groups" available, click the button below to add one. Groups typically represent systems such as "Prefiltration" or "Wellfield."
+      </h4>
+      <br>
+    </div>
+    <div style="margin-bottom: 3px;">
       <div class="row">
         <div class="col">
-          <button (click)="selectGroup(group)" style="width: 100%; margin: 5px" type="button" class="btn btn-primary">
-            <span style="font-weight: bold; font-size: 125%;">{{group.name}}</span>
+          <button style="width: 100%; margin: 5px" type="button" class="btn btn-success">
+            <span style="font-weight: bold; font-size: 125%;">
+              <i style="margin-right: 5px;" class="fa fa-plus-square"></i>Add New Group</span>
           </button>
         </div>
       </div>
     </div>
-    <div style="margin-bottom: 3px;">
-        <div class="row">
-          <div class="col">
-            <button style="width: 100%; margin: 5px" type="button" class="btn btn-success">
-              <span style="font-weight: bold; font-size: 125%;">
-                <i style="margin-right: 5px;" class="fa fa-plus-square"></i>Add New Group</span>
-            </button>
-          </div>
-        </div>
-      </div>
   </div>
   <div *ngIf="!selectedPoint.name && !selectedGroup.name && !selectedLocation.name">
-    <h4>
-      Click on a Location to modify its Data Groups and Data Points or create a new Location.
-    </h4>
+    <h2>
+      Welcome to the data portal admin site. Here you can add locations where data colleciton is performed.
+    </h2>
+    <div *ngIf="!locations">
+      <h4>
+        Click the button to create a new "location" for data collection. A location is, generally, a plant.
+
+      </h4>
+    </div>
+    <div *ngIf="locations">
+      <h4>
+        Click on one of the "locations" to view and edit its "groups". A location is, generally, a plant. The groups are its subsystems.
+      </h4>
+    </div>
+
+    <br>
     <div style="margin-bottom: 3px;" *ngFor="let location of locations">
       <div class="row">
-        <div class="col">
-          <button (click)="selectLocation(location)" style="width: 100%; margin: 5px" type="button" class="btn btn-primary">
+        <div class="col-10" style="padding-right: 0px; !important">
+          <button (click)="selectLocation(location)" style="width: 100%; height: 50px;" type="button" class="btn btn-primary text-left">
             <span style="font-weight: bold; font-size: 125%;">{{location.name}} - {{location.country}}</span>
           </button>
         </div>
+        <div class="col-1" style="margin: 0px; padding: 0px; !important">
+          <button (click)="selectLocation(location)" style="width: 100%; height: 50px;" type="button" class="btn btn-info">
+            <span style="font-weight: bold; font-size: 80%;">
+              <i style="margin: 4px;" class="fa fa-pencil"></i>
+            </span>
+          </button>
+        </div>
+        <div class="col-1" style="margin-right: 0px; padding-left: 0px; !important">
+          <button (click)="selectLocation(location)" style="width: 100%; height: 50px;" type="button" class="btn btn-danger">
+            <span style="font-weight: bold; font-size: 80%;">
+              <i style="margin: 4px;" class="fa fa-trash"></i>
+            </span>
+          </button>
+        </div>
       </div>
+      <hr style="width: 100%; color: black; height: 1px; background-color:black;" />
     </div>
+
     <div style="margin-bottom: 3px;">
       <div class="row">
         <div class="col">
