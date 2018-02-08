@@ -42,20 +42,38 @@ export class LocationsComponent implements OnInit {
     });
   }
   
+  resetSelections() {
+    this.selectedGroup = new Group();
+    this.selectedPoint = new Point();
+    this.selectedLocation = new Location();
+  }
+
+  resetLocationSelect() {
+    this.selectedLocation = new Location();
+  }
+
+  resetGroupSelect() {
+    this.selectedGroup = new Group();
+  }
+
+  resetPointSelect() {
+    this.selectedPoint = new Point();
+  }
+
   selectLocation(location: Location) {
     this.selectedLocation = location;
-    this.selectedGroup = null;
-    this.selectedPoint = null;
+    // this.selectedGroup = new Group();
+    // this.selectedPoint = new Point();
   }
-  selectGroup(group: Location) {
+  selectGroup(group: Group) {
     this.selectedGroup = group;
-    this.selectedPoint = null;
-    this.selectedLocation = null;
+    // this.selectedPoint = new Point();
+    // this.selectedLocation = new Location();
   }
-  selectPoint(point: Location) {
+  selectPoint(point: Point) {
     this.selectedPoint = point;
-    this.selectedGroup = null;
-    this.selectedLocation = null;
+    // this.selectedGroup = new Group();
+    // this.selectedLocation = new Location();
   }
 
   getLocations() {
