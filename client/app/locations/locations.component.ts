@@ -26,8 +26,11 @@ export class LocationsComponent implements OnInit {
   selectedPoint = new Point();
 
   addLocationForm: FormGroup;
-  name = new FormControl('', Validators.required);
-  country = new FormControl('', Validators.required);
+  addGroupForm: FormGroup;
+  locationName = new FormControl('', Validators.required);
+  locationCountry = new FormControl('', Validators.required);
+  groupName = new FormControl('', Validators.required);
+  groupDescription = new FormControl('', Validators.required);
 
   constructor(private locationService: LocationService,
               private formBuilder: FormBuilder,
@@ -36,9 +39,14 @@ export class LocationsComponent implements OnInit {
   ngOnInit() {
     this.getLocations();
     this.addLocationForm = this.formBuilder.group({
-      name: this.name,
-      country: this.country,
+      name: this.locationName,
+      country: this.locationCountry,
       groups: []
+    });
+    this.addGroupForm = this.formBuilder.group({
+      name: this.groupName,
+      description: this.groupDescription,
+      points: []
     });
   }
   
@@ -89,11 +97,13 @@ export class LocationsComponent implements OnInit {
       res => {
         this.locations.push(res);
         this.addLocationForm.reset();
+        console.log(this.addLocationForm.value)
         this.toast.setMessage('item added successfully.', 'success');
       },
       error => console.log(error)
     );
   }
+
 
   enableEditing(location: Location, group?: Group, point?: Point) {
     this.isEditing = true;
@@ -105,6 +115,32 @@ export class LocationsComponent implements OnInit {
       this.point = point;
     }
   }
+
+  addGroup() {
+    if (this.selectedLocation.groups) {
+      var group = new Group();
+      group['name'] = this.addGroupForm.value.name;
+      group['description'] = this.addGroupForm.value.description;
+      this.selectedLocation.groups.push(group)
+    } else {
+      var group = new Group();
+      group['name'] = this.addGroupForm.value.name;
+      group['description'] = this.addGroupForm.value.description;
+      this.selectedLocation.groups = [group];
+      console.log(group)
+      console.log('nopesies')
+    }
+    this.locationService.editLocation(this.selectedLocation).subscribe(
+      () => {
+        this.isEditing = false;
+        this.location =this.selectedLocation;
+        this.toast.setMessage('item edited successfully.', 'success');
+      },
+      error => console.log(error)
+    );
+    this.addGroupForm.reset();
+  }
+
 
   cancelEditing() {
     this.isEditing = false;

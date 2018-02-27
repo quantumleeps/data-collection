@@ -34,3 +34,5 @@ export class LocationService {
   }
 
 }
+
+// get location, add a group to location.groups, edit location with the gotten location?
