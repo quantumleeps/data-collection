@@ -100,7 +100,6 @@ export class LocationsComponent implements OnInit {
   }
   selectPoint(point: Point) {
     this.selectedPoint = point;
-    console.log(this.selectedGroup.points.indexOf(this.selectedPoint))
     // this.selectedGroup = new Group();
     // this.selectedLocation = new Location();
   }
@@ -160,6 +159,41 @@ export class LocationsComponent implements OnInit {
       error => console.log(error)
     );
     this.addGroupForm.reset();
+  }
+
+  deleteGroup(group: Group) {
+    if (window.confirm('Are you sure you want to permanently delete this item?')) {
+      var i = this.selectedLocation.groups.indexOf(group);
+      if (i > -1) {
+        var i = this.selectedLocation.groups.indexOf(group);
+        this.selectedLocation.groups.splice(i, 1);
+        this.locationService.editLocation(this.selectedLocation).subscribe(
+          () => {
+            this.isEditing = false;
+            this.location = this.selectedLocation;
+            this.toast.setMessage('group deleted successfully.', 'success');
+          },
+          error => console.log(error)
+        );
+      }
+    }
+  }
+
+  deletePoint(point: Point) {
+    if (window.confirm('Are you sure you want to permanently delete this item?')) {
+      var i = this.selectedGroup.points.indexOf(point);
+      if (i > -1) {
+        this.selectedGroup.points.splice(i, 1);
+        this.locationService.editLocation(this.selectedLocation).subscribe(
+          () => {
+            this.isEditing = false;
+            this.location = this.selectedLocation;
+            this.toast.setMessage('point deleted successfully.', 'success');
+          },
+          error => console.log(error)
+        );
+      }
+    }
   }
 
   addPoint() {
