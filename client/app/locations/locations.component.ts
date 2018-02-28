@@ -27,14 +27,17 @@ export class LocationsComponent implements OnInit {
 
   addLocationForm: FormGroup;
   addGroupForm: FormGroup;
+  addPointForm: FormGroup;
   locationName = new FormControl('', Validators.required);
   locationCountry = new FormControl('', Validators.required);
   groupName = new FormControl('', Validators.required);
   groupDescription = new FormControl('', Validators.required);
+  pointName = new FormControl('', Validators.required);
+  pointUnits = new FormControl('', Validators.required);
 
   constructor(private locationService: LocationService,
-              private formBuilder: FormBuilder,
-              public toast: ToastComponent) { }
+    private formBuilder: FormBuilder,
+    public toast: ToastComponent) { }
 
   ngOnInit() {
     this.getLocations();
@@ -48,8 +51,24 @@ export class LocationsComponent implements OnInit {
       description: this.groupDescription,
       points: []
     });
+    this.addPointForm = this.formBuilder.group({
+      name: this.pointName,
+      units: this.pointUnits,
+    });
   }
-  
+
+  array_move(arr, old_index, new_index) {
+    if (new_index >= arr.length) {
+      var k = new_index - arr.length + 1;
+      while (k--) {
+        arr.push(undefined);
+      }
+    }
+    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+    return arr; // for testing
+  };
+
+
   resetSelections() {
     this.selectedGroup = new Group();
     this.selectedPoint = new Point();
@@ -75,11 +94,13 @@ export class LocationsComponent implements OnInit {
   }
   selectGroup(group: Group) {
     this.selectedGroup = group;
+
     // this.selectedPoint = new Point();
     // this.selectedLocation = new Location();
   }
   selectPoint(point: Point) {
     this.selectedPoint = point;
+    console.log(this.selectedGroup.points.indexOf(this.selectedPoint))
     // this.selectedGroup = new Group();
     // this.selectedLocation = new Location();
   }
@@ -108,10 +129,10 @@ export class LocationsComponent implements OnInit {
   enableEditing(location: Location, group?: Group, point?: Point) {
     this.isEditing = true;
     this.location = location;
-    if(group) {
+    if (group) {
       this.group = group;
     }
-    if(point) {
+    if (point) {
       this.point = point;
     }
   }
@@ -133,13 +154,37 @@ export class LocationsComponent implements OnInit {
     this.locationService.editLocation(this.selectedLocation).subscribe(
       () => {
         this.isEditing = false;
-        this.location =this.selectedLocation;
-        this.toast.setMessage('item edited successfully.', 'success');
+        this.location = this.selectedLocation;
+        this.toast.setMessage('group added successfully.', 'success');
       },
       error => console.log(error)
     );
     this.addGroupForm.reset();
   }
+
+  addPoint() {
+    if (this.selectedGroup.points) {
+      var point = new Point();
+      point['name'] = this.addPointForm.value.name;
+      point['units'] = this.addPointForm.value.units;
+      this.selectedGroup.points.push(point)
+    } else {
+      var point = new Point();
+      point['name'] = this.addPointForm.value.name;
+      point['description'] = this.addPointForm.value.description;
+      this.selectedGroup.points = [point];
+    }
+    this.locationService.editLocation(this.selectedLocation).subscribe(
+      () => {
+        this.isEditing = false;
+        this.location = this.selectedLocation;
+        this.toast.setMessage('group added successfully.', 'success');
+      },
+      error => console.log(error)
+    );
+    this.addGroupForm.reset();
+  }
+
 
 
   cancelEditing() {
