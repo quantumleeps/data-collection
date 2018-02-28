@@ -1,3 +1,22 @@
+Readme:
+
+Plan: create a data gathering portal
+
+Immediate plan:
+* create a form group for putting in additional details about data points
+* build data runs that involve the users on the page
+* think about how users play into locations, groups and points. Only an owner of a location can add a point? Who is allowed to delete and edit things
+* What are these groups and how do you get them involved now?
+* Once users can be associated with runs, they'll have data gathering opportunities that populate their front page
+
+
+Notes about getting this to compile:
+1. create virtualenv with python 3.6 -> virtualenv env; source env/bin/activate
+2. use node 8.9  -> nvm use 8
+3. Follow all instructions below including installing the CLI
+
+ORIGINAL README FILE:
+
 # Angular Full Stack [![Dependencies](https://david-dm.org/DavideViolante/Angular-Full-Stack.svg)](https://david-dm.org/DavideViolante/Angular2-Full-Stack) [![Donate](https://img.shields.io/badge/paypal-donate-179BD7.svg)](https://www.paypal.me/dviolante) [![MIT license](http://img.shields.io/badge/license-MIT-lightgrey.svg)](http://opensource.org/licenses/MIT)
 
 
